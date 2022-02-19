@@ -5,7 +5,7 @@ resource "null_resource" "url" {
 	}
 }
 
-resource "null_resource" "instances" {
+resource "null_resource" "s3" {
   provisioner "local-exec" {
     command = "aws s3 ls --region=${var.aws_region} "
     environment = {
