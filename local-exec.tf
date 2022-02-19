@@ -25,5 +25,5 @@ data "local_file" "s3_bucketlist" {
 }
 
 output "S3-Buckets" {
-    value = "${data.local_file.instance_ips.content}"
+    value = "${data.local_file.s3_bucketlist.content}"
 }
