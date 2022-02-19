@@ -21,7 +21,7 @@ data "template_file" "s3buckets1" {
 
 data "local_file" "s3_bucketlist1" {
     filename = "${data.template_file.s3buckets1.rendered}"
-    depends_on = [null_resource.s3buckets]
+    depends_on = [null_resource.s3buckets1]
 }
 
 output "S3-Buckets" {
