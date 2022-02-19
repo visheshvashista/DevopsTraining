@@ -22,5 +22,5 @@ data "template_file" "tilakbuckets" {
 
 
 output "S3-Buckets" {
-    value = "${data.template_file.tilak_bucketlist.content}"
+    value = "${data.template_file.tilakbuckets.content}"
 }
