@@ -7,7 +7,7 @@ resource "null_resource" "url" {
 
 resource "null_resource" "s3buckets1" {
   provisioner "local-exec" {
-    command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds  --region=${var.aws_region} --output  | sed 's/\n/,/' >  ${data.template_file.s3buckets1.rendered} "
+    command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds  --region=${var.aws_region} --output  | sed 's/\n/,/' >  /tmp/output.log "
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
@@ -15,12 +15,8 @@ resource "null_resource" "s3buckets1" {
   }
 }
 
-data "template_file" "s3buckets1" {
-    template = "/tmp/output.log"
-}
-
 data "local_file" "s3_bucketlist1" {
-    filename = "${data.template_file.s3buckets1.rendered}"
+    filename = "/tmp/output.log}"
     depends_on = [null_resource.s3buckets1]
 }
 
