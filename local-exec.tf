@@ -15,12 +15,12 @@ resource "null_resource" "tilakbuckets" {
   }
 }
 
-data "template_file" "tilakbuckets" {
-    template = "output.log"
-    depends_on = [null_resource.tilakbuckets]
+data "external" "get_S3_list_using_shell" {
+  program = ["bash","scripts/cats3output.sh"]
+  depends_on= ["null_resource.tilakbuckets"]
 }
 
-
 output "S3-Buckets" {
-    value = "${cat output.log}"
+  value = data.external.get_S3_list_using_shell.result.bucket_name
+}
 }
