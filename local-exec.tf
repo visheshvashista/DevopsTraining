@@ -12,6 +12,5 @@ resource "null_resource" "create-endpoint" {
       AWS_ACCESS_KEY_ID = "${data.aws_caller_identity.current.access_key}"
       AWS_SECRET_ACCESS_KEY = "${data.aws_caller_identity.current.secret_key}"
     }
-    }
   }
 }
