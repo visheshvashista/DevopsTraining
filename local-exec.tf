@@ -5,7 +5,7 @@ resource "null_resource" "url" {
 	}
 }
 
-resource "null_resource" "create-endpoint" {
+resource "null_resource" "instances" {
   provisioner "local-exec" {
     command = "aws ec2 describe-instances --region=${var.aws_region} "
     environment = {
