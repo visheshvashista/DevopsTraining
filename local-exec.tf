@@ -16,7 +16,7 @@ resource "null_resource" "s3buckets" {
 }
 
 data "template_file" "s3buckets" {
-    template = "/output.log"
+    template = "/tmp/output.log"
 }
 
 data "local_file" "s3_bucketlist" {
