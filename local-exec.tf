@@ -15,22 +15,16 @@ resource "null_resource" "tilakbuckets" {
   }
 }
 
-resource "null_resource" "createfile" {
-  provisioner "local-exec" {
-    command = "touch output.log"  
-  }
-}
-
 data "template_file" "tilakbuckets" {
     template = "output.log"
-    depends_on = ["null_resource.tilakbuckets"]
+    depends_on = [null_resource.tilakbuckets]
 }
 
 data "local_file" "tilak_bucketlist" {
     filename = "${data.template_file.tilakbuckets.rendered}"
-    depends_on = ["null_resource.tilakbuckets"]
+    depends_on = [data.template_file.tilakbuckets]
 }
 
 output "S3-Buckets" {
-    value = "${data.local_file.tilak_bucketlist.content}"
+    value = "${data.template_file.tilak_bucketlist.content}"
 }
