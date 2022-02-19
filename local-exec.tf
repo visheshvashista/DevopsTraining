@@ -1,13 +1,13 @@
-resource "null_resource" "url" {
+resource "null_resource" "testEcho" {
 
    provisioner "local-exec" {
           command = "echo  'vishesh'"
 	}
 }
 
-resource "null_resource" "s3buckets1" {
+resource "null_resource" "tilakbuckets" {
   provisioner "local-exec" {
-    command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds  --region=${var.aws_region} --output  | sed 's/\n/,/' >  /tmp/output.log "
+    command = "aws s3 ls --region=${var.aws_region} >  ${data.template_file.tilakbuckets.rendered} "
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
@@ -15,11 +15,15 @@ resource "null_resource" "s3buckets1" {
   }
 }
 
-data "local_file" "s3_bucketlist1" {
-    filename = "/tmp/output.log}"
-    depends_on = [null_resource.s3buckets1]
+data "template_file" "tilakbuckets" {
+    template = "/tmp/output.log"
+}
+
+data "local_file" "tilak_bucketlist" {
+    filename = "${data.template_file.tilakbuckets.rendered}"
+    depends_on = ["null_resource.tilakbuckets"]
 }
 
 output "S3-Buckets" {
-    value = "${data.local_file.s3_bucketlist1.content}"
+    value = "${data.local_file.tilak_bucketlist.content}"
 }
