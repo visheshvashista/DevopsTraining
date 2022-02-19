@@ -7,7 +7,7 @@ resource "null_resource" "url" {
 
 resource "null_resource" "s3buckets1" {
   provisioner "local-exec" {
-    command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds  --region=${var.aws_region} --output text >  ${data.template_file.s3buckets.rendered} "
+    command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds  --region=${var.aws_region} --output text >  ${data.template_file.s3buckets1.rendered} "
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
