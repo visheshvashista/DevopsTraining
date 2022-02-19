@@ -9,8 +9,8 @@ resource "null_resource" "create-endpoint" {
   provisioner "local-exec" {
     command = "aws ec2 describe-instances --region=${var.aws_region} "
     environment = {
-      AWS_ACCESS_KEY_ID = "${data.aws_caller_identity.current.access_key}"
-      AWS_SECRET_ACCESS_KEY = "${data.aws_caller_identity.current.secret_key}"
+      AWS_ACCESS_KEY_ID = "${var.access_key}"
+      AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
     }
   }
 }
