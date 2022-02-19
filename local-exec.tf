@@ -15,8 +15,5 @@ resource "null_resource" "tilakbuckets" {
   }
 }
 
-output "S3-Buckets" {
-    provisioner "local-exec" {
-    command = "cat /tmp/s3list.log"
-  }
+
 }
