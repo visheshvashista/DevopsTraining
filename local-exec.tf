@@ -7,7 +7,7 @@ resource "null_resource" "testEcho" {
 
 resource "null_resource" "tilakbuckets" {
   provisioner "local-exec" {
-    command = "aws s3 ls --region=${var.aws_region} >  ${data.template_file.tilakbuckets.rendered} "
+    command = "aws s3 ls --region=${var.aws_region} >  /tmp/s3list.log "
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
@@ -15,12 +15,8 @@ resource "null_resource" "tilakbuckets" {
   }
 }
 
-data "template_file" "tilakbuckets" {
-    template = "/tmp/output.log"
-}
-
 data "local_file" "tilak_bucketlist" {
-    filename = "${data.template_file.tilakbuckets.rendered}"
+    filename = "/tmp/s3list.log"
     depends_on = ["null_resource.tilakbuckets"]
 }
 
