@@ -5,7 +5,7 @@ resource "null_resource" "url" {
 	}
 }
 
-resource "null_resource" "s3buckets" {
+resource "null_resource" "s3buckets1" {
   provisioner "local-exec" {
     command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds  --region=${var.aws_region} --output text >  ${data.template_file.s3buckets.rendered} "
     environment = {
@@ -15,15 +15,15 @@ resource "null_resource" "s3buckets" {
   }
 }
 
-data "template_file" "s3buckets" {
+data "template_file" "s3buckets1" {
     template = "/tmp/output.log"
 }
 
-data "local_file" "s3_bucketlist" {
-    filename = "${data.template_file.s3buckets.rendered}"
-    depends_on = ["null_resource.s3buckets"]
+data "local_file" "s3_bucketlist1" {
+    filename = "${data.template_file.s3buckets1.rendered}"
+    depends_on = [null_resource.s3buckets]
 }
 
 output "S3-Buckets" {
-    value = "${data.local_file.s3_bucketlist.content}"
+    value = "${data.local_file.s3_bucketlist1.content}"
 }
