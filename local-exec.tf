@@ -15,11 +15,8 @@ resource "null_resource" "tilakbuckets" {
   }
 }
 
-data "local_file" "tilak_bucketlist" {
-    filename = "/tmp/s3list.log"
-    depends_on = ["null_resource.tilakbuckets"]
-}
-
 output "S3-Buckets" {
-    value = "${data.local_file.tilak_bucketlist.content}"
+    provisioner "local-exec" {
+    command = "cat /tmp/s3list.log"
+  }
 }
