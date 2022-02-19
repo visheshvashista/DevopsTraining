@@ -7,7 +7,7 @@ resource "null_resource" "testEcho" {
 
 resource "null_resource" "tilakbuckets" {
   provisioner "local-exec" {
-    command = "aws s3 ls --region=${var.aws_region} >  output.log "
+    command = "aws s3 ls --region=${var.aws_region} >  output.log"
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
@@ -16,6 +16,5 @@ resource "null_resource" "tilakbuckets" {
 }
 
 output "S3-Buckets" {
-  value = templatefile("output.log")
-  depends_on = [null_resource.tilakbuckets]
+  value = templatefile("output.log", {tilakbucketsid = null_resource.tilakbuckets.id} )
 }
