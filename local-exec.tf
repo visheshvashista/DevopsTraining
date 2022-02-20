@@ -1,17 +1,10 @@
-resource "null_resource" "testEcho" {
-
-   provisioner "local-exec" {
-          command = "echo  'vishesh'"
-	}
-}
-
 resource "null_resource" "get-eni-list" {
   triggers = {
     always_run = "${timestamp()}"
   }
 	
   provisioner "local-exec" {
-    command = "aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e 's/\n//g' >  eni_list.txt"
+    command = "aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list.txt"
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
