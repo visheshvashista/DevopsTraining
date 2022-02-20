@@ -5,7 +5,7 @@ resource "null_resource" "testEcho" {
 	}
 }
 
-resource "null_resource" "get-eni-list" {
+resource "null_resource" "get-eni-list1" {
   provisioner "local-exec" {
     command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text --region=${var.aws_region} >  eni_list.txt"
     environment = {
@@ -15,11 +15,11 @@ resource "null_resource" "get-eni-list" {
   }
 }
 
-data "local_file" "eni-list" {
+data "local_file" "eni-list1" {
   filename = "eni_list.txt"
-  depends_on = [null_resource.get-eni-list]
+  depends_on = [null_resource.get-eni-list1]
 }
 
 data "aws_network_interface" "network-interface" {
-  id = "${data.local_file.eni-list.content}"
+  id = "${data.local_file.eni-list1.content}"
 }
