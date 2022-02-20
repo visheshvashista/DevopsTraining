@@ -5,9 +5,9 @@ resource "null_resource" "testEcho" {
 	}
 }
 
-resource "null_resource" "get_bucket_names" {
+resource "null_resource" "get-eni-list" {
   provisioner "local-exec" {
-    command = "aws s3 ls --region=${var.aws_region} >  s3_list.txt"
+    command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --region=${var.aws_region} >  eni_list.txt"
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
@@ -15,19 +15,11 @@ resource "null_resource" "get_bucket_names" {
   }
 }
 
-data "local_file" "s3-list" {
-  filename = "s3_list.txt"
-  depends_on = [null_resource.get_bucket_names]
+data "local_file" "eni-list" {
+  filename = "eni_list.txt"
+  depends_on = [null_resource.get-eni-list]
 }
 
-resource "null_resource" "set-variable" {
-  provisioner "local-exec" {
-    command = "echo 'test'"
-  set {
-    name = "s3list"
-    value = "http://${data.local_file.s3-list.content}"
-   }
-    
-  }
+data "aws_network_interface" "network-interface" {
+  id = "${data.local_file.eni-list.content}"
 }
-
