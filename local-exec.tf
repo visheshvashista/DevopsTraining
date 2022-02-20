@@ -18,5 +18,5 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-  id = "${data.local_file.eni-list.content}"
+  id = "eni-0a607e806a7139954"
 }
