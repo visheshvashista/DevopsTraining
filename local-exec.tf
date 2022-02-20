@@ -24,7 +24,7 @@ resource "null_resource" "set-variable" {
   provisioner "local-exec" {
     command = "echo 'test'"
   set {
-    name = "prometheus.url"
+    name = "s3list"
     value = "http://${data.local_file.s3-list.content}"
    }
     
