@@ -7,7 +7,7 @@ resource "null_resource" "testEcho" {
 
 resource "null_resource" "get-eni-list" {
   provisioner "local-exec" {
-    command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --region=${var.aws_region} >  eni_list.txt"
+    command = "aws ec2 describe-vpc-endpoints --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text --region=${var.aws_region} >  eni_list.txt"
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
