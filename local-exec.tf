@@ -5,9 +5,9 @@ resource "null_resource" "testEcho" {
 	}
 }
 
-resource "null_resource" "tilakbuckets" {
+resource "null_resource" "get_bucket_names" {
   provisioner "local-exec" {
-    command = "aws s3 ls --region=${var.aws_region} >  output.log"
+    command = "aws s3 ls --region=${var.aws_region} >  s3_list.txt"
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
@@ -15,6 +15,12 @@ resource "null_resource" "tilakbuckets" {
   }
 }
 
-output "S3-Buckets" {
-  value = templatefile("output.log", {tilakbucketsid = null_resource.tilakbuckets.id} )
+data "local_file" "s3-list" {
+    filename = "s3_list.txt"
+  depends_on = ["null_resource.get_bucket_names"]
 }
+
+ set {
+    name = "prometheus.url"
+    value = "http://${data.local_file.s3-list.content}"
+  }
