@@ -1,4 +1,4 @@
-variable "prometheus.url" {
+variable "s3list" {
   type    = list(string)
   default = [""]
 }
