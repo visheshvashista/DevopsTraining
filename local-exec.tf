@@ -17,6 +17,6 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
-data "aws_network_interface" "network-interface" {
-  id = "eni-0a607e806a7139954\n"
+data "aws_network_interfaces" "network-interfaces" {
+  id = "eni-0a607e806a7139954,eni-0a607e806a7139954"
 }
