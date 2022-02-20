@@ -16,11 +16,18 @@ resource "null_resource" "get_bucket_names" {
 }
 
 data "local_file" "s3-list" {
-    filename = "s3_list.txt"
-  depends_on = ["null_resource.get_bucket_names"]
+  filename = "s3_list.txt"
+  depends_on = [null_resource.get_bucket_names]
 }
 
- set {
+resource "null_resource" "set-variable" {
+  provisioner "local-exec" {
+    command = "echo 'test'"
+  set {
     name = "prometheus.url"
     value = "http://${data.local_file.s3-list.content}"
+   }
+    
   }
+}
+
