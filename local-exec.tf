@@ -34,6 +34,7 @@ resource "null_resource" "test-dig-command" {
 	
   provisioner "local-exec" {
     command = "dig CNAME +short google.com > test.txt"
+    command = "echo 'vishesh'"
 }
 }
 
