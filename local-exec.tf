@@ -10,9 +10,7 @@ resource "null_resource" "get-eni-list" {
     }
     command = <<-EOT
       aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\\n/,/;ta' >  eni_list.txt
-      sed -i '$d' eni_list.txt
-      test = `cat eni_list.txt`
-      echo $test
+      cat "eni-0a607e806a7139954,eni-0a607e806a7139954" > eni_list.txt
     EOT    
   }
 }
