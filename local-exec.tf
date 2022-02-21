@@ -18,5 +18,6 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-  id = "${data.local_file.eni-list.content}"
+       count = length(${data.local_file.eni-list.content})
+       id = element(${data.local_file.eni-list.content},count,index)
 }
