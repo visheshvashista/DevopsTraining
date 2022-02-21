@@ -12,7 +12,8 @@ resource "null_resource" "get-eni-list" {
       aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\\n/,/;ta' >  eni_list1.txt
       sed '$d' eni_list1.txt
       cp eni_list1.txt eni_list.txt
-      cat eni_list.txt
+      test = `cat eni_list.txt`
+      echo $test
     EOT    
   }
 }
@@ -42,8 +43,6 @@ resource "null_resource" "test-dig-command" {
     command = <<-EOT
       dig CNAME +short google.com > test.txt
       echo "vishesh" >> test.txt
-      cat test.txt
-      cat eni_list.txt
     EOT
 }
 }
