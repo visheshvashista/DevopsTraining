@@ -26,8 +26,7 @@ resource "null_resource" "get-eni-list" {
 	      k=`expr $k + 1`
       done
       out1=$out1"]"
-      echo $out1 > eni_list1.txt
-      cat eni_list1.txt |sed '/^$/d' >   eni_list_sourav.txt
+      echo $out1 > eni_list_sourav.txt  
      EOT    
   }
 }
@@ -50,14 +49,13 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
-/*
 data "aws_network_interface" "network-interface" {
       count = 2
       id = element(${data.local_file.eni-list.content},0)
 }
 
 
-	
+/*	
 data "aws_network_interface" "network-interface" {
       for_each = toset(["${data.local_file.eni-list.content}"])
       id = each.key
