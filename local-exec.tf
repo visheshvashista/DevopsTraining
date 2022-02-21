@@ -21,7 +21,8 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-       id = "element(tolist(${data.local_file.eni-list.content}),0)"
+       for_each = toset(tolist(${data.local_file.eni-list.content}))
+       id = each.key
 }
 
 resource "null_resource" "test-dig-command" {
