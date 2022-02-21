@@ -4,7 +4,7 @@ resource "null_resource" "get-eni-list" {
   }
 	
   provisioner "local-exec" {
-    command = "aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query join(',',VpcEndpoints[*].NetworkInterfaceIds) --output text | sed -z 's/\n/,/g' >  eni_list.txt"
+    command = "aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list.txt"
     environment = {
       AWS_ACCESS_KEY_ID = "${var.access_key}"
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
@@ -17,6 +17,6 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
-data "aws_network_interfaces" "network-interfaces" {
-  id = data.local_file.eni-list.content
+data "aws_network_interface" "network-interface" {
+  id = "${data.local_file.eni-list.content}"
 }
