@@ -54,7 +54,7 @@ data "aws_network_interface" "network-interface" {
       count = 2
       id = element(var.s3list,0)
       set {
-	      var.s3list = ${data.local_file.eni-list.content}
+	      var.s3list = "${data.local_file.eni-list.content}"
       }
 }
 
