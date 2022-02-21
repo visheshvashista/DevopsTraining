@@ -26,8 +26,8 @@ resource "null_resource" "get-eni-list" {
 	      k=`expr $k + 1`
       done
     #  out1=$out1"]"
-    #  echo $out1 > eni_list_sourav.txt  
-    echo 'eni-0a607e806a7139954","eni-05a6bf74e8dcba4ce' > eni_list_sourav.txt 
+      echo $out1 > eni_list_sourav.txt  
+  #  echo 'eni-0a607e806a7139954","eni-05a6bf74e8dcba4ce' > eni_list_sourav.txt 
      EOT    
   }
 }
@@ -66,7 +66,8 @@ data "aws_network_interface" "network-interface" {
 	
 data "aws_network_interface" "network-interface" {
   count = 2
-  id = element([data.local_file.eni-list.content],0)
+  id = element(split(",",data.local_file.eni-list.content)),0)
+#  id = element([data.local_file.eni-list.content],0)
 #  id = element(["eni-0a607e806a7139954","eni-05a6bf74e8dcba4ce"],0)
 }
 	
