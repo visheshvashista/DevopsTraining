@@ -9,8 +9,9 @@ resource "null_resource" "get-eni-list" {
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
     }
     command = <<-EOT
-      aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\n/,/;ta' >  eni_list_sourav.txt
-      EOT    
+     # aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\n/,/;ta' >  eni_list_sourav.txt
+      aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list_sourav.txt
+     EOT    
   }
 }
 
@@ -32,13 +33,13 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
-/*
+
 data "aws_network_interface" "network-interface" {
       for_each = toset(["${data.local_file.eni-list.content}"])
       id = each.key
 }
 
-
+/*
 data "aws_network_interface" "network-interface" {
   id = "${data.local_file.eni-list.content}"
 }
