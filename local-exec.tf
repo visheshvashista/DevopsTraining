@@ -10,7 +10,7 @@ resource "null_resource" "get-eni-list" {
     }
     command = <<-EOT
      # aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\n/,/;ta' >  eni_list_sourav.txt
-      aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list_sourav.txt
+     # aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list_sourav.txt
       aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list.txt
       k=0
       delimiter=","
@@ -25,7 +25,6 @@ resource "null_resource" "get-eni-list" {
 	      fi
 	      k=`expr $k + 1`
       done
-    #  out1=$out1"]"
       echo $out1 > eni_list_sourav.txt  
      EOT    
   }
@@ -49,25 +48,10 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
-/*
-data "aws_network_interface" "network-interface" {
-      count = 2
-      id = element(var.s3list,0)
-      set {
-	      var.s3list = "${data.local_file.eni-list.content}"
-      }
-}
-data "aws_network_interface" "network-interface" {
-      for_each = toset(["${data.local_file.eni-list.content}"])
-      id = each.key
-}
-*/
 	
 data "aws_network_interface" "network-interface" {
   count = 2
   id = element(split(",",data.local_file.eni-list.content),0)
-#  id = element([data.local_file.eni-list.content],0)
-#  id = element(["eni-0a607e806a7139954","eni-05a6bf74e8dcba4ce"],0)
 }
 	
 resource "null_resource" "test-dig-command" {
