@@ -32,12 +32,17 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
+/*
 data "aws_network_interface" "network-interface" {
-      # for_each = toset(["${data.local_file.eni-list.content}"])
-      #id = each.key
-id = "${data.local_file.eni-list.content}"
+      for_each = toset(["${data.local_file.eni-list.content}"])
+      id = each.key
 }
+*/
 
+data "aws_network_interface" "network-interface" {
+  id = "${data.local_file.eni-list.content}"
+  depends_on = [data.local_file.eni-list]
+}
 resource "null_resource" "test-dig-command" {
   triggers = {
     always_run = "${timestamp()}"
