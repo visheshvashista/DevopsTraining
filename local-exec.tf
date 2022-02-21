@@ -46,13 +46,13 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
-
+/*
 data "aws_network_interface" "network-interface" {
       count = 2
       id = element(${data.local_file.eni-list.content},0)
 }
 
-/*
+
 	
 data "aws_network_interface" "network-interface" {
       for_each = toset(["${data.local_file.eni-list.content}"])
