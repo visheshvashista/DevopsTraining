@@ -64,8 +64,8 @@ data "aws_network_interface" "network-interface" {
 */
 	
 data "aws_network_interface" "network-interface" {
- #count = 2
-  id = split(",",data.local_file.eni-list.content)
+  count = 2
+  id = element(split(",",data.local_file.eni-list.content),0)
 #  id = element([data.local_file.eni-list.content],0)
 #  id = element(["eni-0a607e806a7139954","eni-05a6bf74e8dcba4ce"],0)
 }
