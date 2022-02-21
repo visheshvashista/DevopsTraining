@@ -44,7 +44,7 @@ resource "null_resource" "test-dig-command1" {
   }
 	
   provisioner "local-exec" {
-    command = "cat test.txt"
+    command = "tesu =`cat test.txt` | echo $tesu"
 }
   depends_on = [null_resource.test-dig-command]
 }
