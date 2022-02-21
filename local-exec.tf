@@ -50,7 +50,7 @@ data "local_file" "eni-list" {
 
 	
 data "aws_network_interface" "network-interface" {
-  count = 2
+  count = 3
   id = element(split(",",data.local_file.eni-list.content),0)
 }
 	
