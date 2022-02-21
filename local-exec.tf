@@ -10,8 +10,7 @@ resource "null_resource" "get-eni-list" {
     }
     command = <<-EOT
       aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\\n/,/;ta' >  eni_list.txt
-      echo "eni-0a607e806a7139954,eni-0a607e806a7139954" > eni_list.txt
-    EOT    
+      EOT    
   }
 }
 
@@ -21,7 +20,7 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-       for_each = "toset(tolist(${data.local_file.eni-list.content}))"
+       for_each = toset(["eni-0a607e806a7139954","eni-0a607e806a7139954"])
        id = each.key
 }
 
