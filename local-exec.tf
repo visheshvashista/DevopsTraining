@@ -36,3 +36,9 @@ resource "null_resource" "test-dig-command" {
     command = "dig CNAME +short google.com > test.txt"
 }
 }
+
+
+data "local_file" "dig-list" {
+  filename = "test.txt"
+  depends_on = [null_resource.test-dig-command]
+}
