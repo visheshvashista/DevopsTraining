@@ -16,7 +16,8 @@ resource "null_resource" "get-eni-list" {
       out1=""
       for i in  `cat eni_list.txt`
       do 
-      if [ $i -eq 0 ] then
+      if [ $i -eq 0 ] 
+      then
       	out1="[ "$i
       else
       	out1="$out1,$i
