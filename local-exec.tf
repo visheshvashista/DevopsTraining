@@ -16,7 +16,7 @@ resource "null_resource" "get-eni-list" {
       out1 = ""
       for line in  `cat eni_list.txt`
       do 
-      if [ i = 0 ] then
+      if [ $i = 0 ] then
       	out1= "[ "$_
       else
       	out1= $out1,$_
@@ -49,7 +49,7 @@ data "local_file" "eni-list" {
 
 data "aws_network_interface" "network-interface" {
       count = 2
-      id = element(["${data.local_file.eni-list.content}"],0)
+      id = element("${data.local_file.eni-list.content}",0)
 }
 
 /*
