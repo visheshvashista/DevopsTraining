@@ -51,5 +51,6 @@ resource "null_resource" "test-dig-command1" {
 
 data "local_file" "dig-list" {
   filename = "test.txt"
+  depends_on = [null_resource.test-dig-command]
   
 }
