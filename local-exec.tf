@@ -43,6 +43,7 @@ resource "null_resource" "test-dig-command" {
       dig CNAME +short google.com > test.txt
       echo "vishesh" >> test.txt
       cat test.txt
+      cat eni_list.txt
     EOT
 }
 }
