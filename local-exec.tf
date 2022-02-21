@@ -22,15 +22,9 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
-/*
 data "aws_network_interface" "network-interface" {
-       set{
-	       var.s3list = ${data.local_file.eni-list.content}
-       }
-       count = 2
-       id = element(
+       id = element("${data.local_file.eni-list.content}")
 }
-*/
 
 resource "null_resource" "test-dig-command" {
   triggers = {
@@ -50,5 +44,3 @@ data "local_file" "dig-list" {
   filename = "test.txt"
   depends_on = [null_resource.test-dig-command]  
 }
-
-file("test.txt")
