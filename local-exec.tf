@@ -27,7 +27,7 @@ resource "null_resource" "get-eni-list" {
       done
     #  out1=$out1"]"
     #  echo $out1 > eni_list_sourav.txt  
-    echo "eni-0a607e806a7139954,eni-05a6bf74e8dcba4ce"  > eni_list_sourav.txt 
+    echo "'eni-0a607e806a7139954','eni-05a6bf74e8dcba4ce'"  > eni_list_sourav.txt 
      EOT    
   }
 }
