@@ -20,7 +20,7 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-       for_each = toset(["eni-0a607e806a7139954","eni-0a607e806a7139954"])
+       for_each = toset(["eni-0a607e806a7139954","eni-05a6bf74e8dcba4ce"])
        id = each.key
 }
 
