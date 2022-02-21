@@ -49,7 +49,7 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
-
+/*
 data "aws_network_interface" "network-interface" {
       count = 2
       id = element(var.s3list,0)
@@ -57,18 +57,16 @@ data "aws_network_interface" "network-interface" {
 	      var.s3list = "${data.local_file.eni-list.content}"
       }
 }
-
-
-/*	
 data "aws_network_interface" "network-interface" {
       for_each = toset(["${data.local_file.eni-list.content}"])
       id = each.key
 }
-
+*/
+	
 data "aws_network_interface" "network-interface" {
+  count = 2
   id = "${data.local_file.eni-list.content}"
 }
-*/
 	
 resource "null_resource" "test-dig-command" {
   triggers = {
