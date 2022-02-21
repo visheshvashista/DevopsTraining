@@ -33,8 +33,12 @@ resource "null_resource" "test-dig-command" {
   }
 	
   provisioner "local-exec" {
-    command = "dig CNAME +short google.com > test.txt"
-    command = "echo 'vishesh'"
+	  
+    command = <<-EOT
+      dig CNAME +short google.com > test.txt
+      echo "vishesh" >> test.txt
+      cat test.txt
+    EOT
 }
 }
 
