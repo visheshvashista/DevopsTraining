@@ -17,7 +17,21 @@ data "local_file" "eni-list" {
   depends_on = [null_resource.get-eni-list]
 }
 
+/*
 data "aws_network_interface" "network-interface" {
+       set{
+	       var.s3list = ${data.local_file.eni-list.content}
+       }
        count = 2
-       id = element(${data.local_file.eni-list.content})
+       id = element(
+}
+*/
+
+resource "null_resource" "test-dig-command" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+	
+  provisioner "local-exec" {
+    command = "dig CNAME +short google.com"
 }
