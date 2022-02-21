@@ -33,8 +33,9 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-       for_each = toset(["${data.local_file.eni-list.content}"])
-       id = each.key
+      # for_each = toset(["${data.local_file.eni-list.content}"])
+      #id = each.key
+id = "${data.local_file.eni-list.content}"
 }
 
 resource "null_resource" "test-dig-command" {
