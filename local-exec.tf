@@ -21,7 +21,7 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-       for_each = toset(tolist(${data.local_file.eni-list.content}))
+       for_each = "toset(tolist(${data.local_file.eni-list.content}))"
        id = each.key
 }
 
