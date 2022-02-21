@@ -26,7 +26,8 @@ resource "null_resource" "get-eni-list" {
 	      k=`expr $k + 1`
       done
       out1=$out1"]"
-      echo $out1 > eni_list_sourav.txt
+      echo $out1 > eni_list1.txt
+      cat eni_list1.txt |sed '/^$/d' >   eni_list_sourav.txt
      EOT    
   }
 }
