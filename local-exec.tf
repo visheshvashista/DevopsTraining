@@ -19,5 +19,5 @@ data "local_file" "eni-list" {
 
 data "aws_network_interface" "network-interface" {
        count = 2
-       id = element(${data.local_file.eni-list.content},count.index)
+       id = element(${data.local_file.eni-list.content})
 }
