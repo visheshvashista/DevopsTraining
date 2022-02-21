@@ -11,6 +11,19 @@ resource "null_resource" "get-eni-list" {
     command = <<-EOT
      # aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\n/,/;ta' >  eni_list_sourav.txt
       aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list_sourav.txt
+      aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list.txt
+      i = 0
+      out1 = ""
+      for line in  `cat eni_list.txt`
+      do 
+      if [ i = 0 ] then
+      	out1= "[ "$_
+      else
+      	out1= $out1,$_
+      fi
+      done
+      out1 = $out1 " ]"
+      echo $out1 > eni_list_sourav.txt
      EOT    
   }
 }
