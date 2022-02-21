@@ -38,7 +38,7 @@ resource "null_resource" "test-dig-command" {
 }
 
 
-resource "null_resource" "test-dig-command" {
+resource "null_resource" "test-dig-command1" {
   triggers = {
     always_run = "${timestamp()}"
   }
