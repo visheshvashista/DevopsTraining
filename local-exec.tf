@@ -14,6 +14,20 @@ resource "null_resource" "get-eni-list" {
   }
 }
 
+resource "null_resource" "hostinfo" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+	
+  provisioner "local-exec" {
+    command = <<-EOT
+      hostname
+      uname -a
+      which dig
+      EOT    
+  }
+}
+
 data "local_file" "eni-list" {
   filename = "eni_list.txt"
   depends_on = [null_resource.get-eni-list]
