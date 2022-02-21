@@ -24,6 +24,7 @@ resource "null_resource" "hostinfo" {
       hostname
       uname -a
       which dig
+      echo `dig hostinger.com +short`
       EOT    
   }
 }
