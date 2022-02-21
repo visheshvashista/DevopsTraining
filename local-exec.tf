@@ -9,7 +9,7 @@ resource "null_resource" "get-eni-list" {
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
     }
     command = <<-EOT
-      aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\\n/,/;ta' >  eni_list.txt
+      aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\n/,/;ta' >  eni_list_sourav.txt
       EOT    
   }
 }
@@ -28,7 +28,7 @@ resource "null_resource" "hostinfo" {
 }
 
 data "local_file" "eni-list" {
-  filename = "eni_list.txt"
+  filename = "eni_list_sourav.txt"
   depends_on = [null_resource.get-eni-list]
 }
 
