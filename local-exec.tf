@@ -21,8 +21,6 @@ resource "null_resource" "hostinfo" {
 	
   provisioner "local-exec" {
     command = <<-EOT
-      hostname
-      uname -a
       which dig
       echo `dig hostinger.com +short`
       EOT    
@@ -35,7 +33,7 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-       for_each = toset(["eni-0a607e806a7139954","eni-05a6bf74e8dcba4ce"])
+       for_each = toset(["${data.local_file.eni-list.content}"])
        id = each.key
 }
 
