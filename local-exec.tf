@@ -46,20 +46,9 @@ resource "null_resource" "test-dig-command" {
 }
 }
 
-
-resource "null_resource" "test-dig-command1" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-	
-  provisioner "local-exec" {
-    command = "tesu =`cat test.txt` | echo $tesu"
-}
-  depends_on = [null_resource.test-dig-command]
-}
-
 data "local_file" "dig-list" {
   filename = "test.txt"
-  depends_on = [null_resource.test-dig-command]
-  
+  depends_on = [null_resource.test-dig-command]  
 }
+
+file("test.txt")
