@@ -9,9 +9,8 @@ resource "null_resource" "get-eni-list" {
       AWS_SECRET_ACCESS_KEY = "${var.secret_key}"
     }
     command = <<-EOT
-      aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\\n/,/;ta' >  eni_list1.txt
-      sed '$d' eni_list1.txt
-      cp eni_list1.txt eni_list.txt
+      aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text | sed -e :a -e '$!N;s/\\n/,/;ta' >  eni_list.txt
+      sed -i '$d' eni_list.txt
       test = `cat eni_list.txt`
       echo $test
     EOT    
