@@ -14,7 +14,7 @@ resource "null_resource" "get-eni-list" {
       aws ec2 describe-vpc-endpoints --region=${var.aws_region} --filters Name=tag:Name,Values=test-ep --query VpcEndpoints[*].NetworkInterfaceIds --output text >  eni_list.txt
       k=0
       delimiter=","
-      out1="["
+      out1=""
       for i in  `cat eni_list.txt | sed '/^$/d'`
       do
 	      if [ $k -eq 0 ]
@@ -25,7 +25,7 @@ resource "null_resource" "get-eni-list" {
 	      fi
 	      k=`expr $k + 1`
       done
-      out1=$out1"]"
+    #  out1=$out1"]"
       echo $out1 > eni_list_sourav.txt  
      EOT    
   }
