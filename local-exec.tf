@@ -23,7 +23,7 @@ data "local_file" "eni-list" {
 }
 
 data "aws_network_interface" "network-interface" {
-       id = ${data.local_file.eni-list.content}
+       id = "${data.local_file.eni-list.content}"
 }
 
 resource "null_resource" "test-dig-command" {
